@@ -7,16 +7,14 @@ on open these_items
 		set this_item to item i of myItems
 		set posix_path to POSIX path of this_item
 		
-		-- For now I'm stripping the preceding '/Volumes' string for external 
-		-- drives so I don't clutter my build logs.
-		set shortened_path to do shell script "
-			echo \"" & posix_path & "\" | sed 's|/Volumes||'
-		"
-		set path_str to path_str & shortened_path & return
-		--set path_str to path_str & posix_path & return
+		if the (count of myItems) is 1 then
+			set path_str to path_str & posix_path
+		else
+			set path_str to path_str & posix_path & return
+		end if
+		
 	end repeat
 	
-	-- Copy plain text to the clipboard.
 	set the clipboard to «class ktxt» of ((the path_str as text) as record)
 end open
 
